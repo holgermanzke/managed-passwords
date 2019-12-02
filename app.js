@@ -1,3 +1,5 @@
+const { get, set, unset } = require("./utils/cmds");
+
 const [cmd, key, value] = process.argv.slice(2);
 
 const passwords = {
@@ -8,17 +10,18 @@ const passwords = {
 
 switch (cmd) {
   case "get":
-    console.log(passwords[key]);
+    const result = get(key);
+    console.log(result);
     break;
 
   case "set":
     console.log("set");
-    passwords[key] = value;
+    set(key, value);
     break;
 
   case "unset":
     console.log("unset");
-    delete passwords[key];
+    unset(key);
     break;
 
   default:
