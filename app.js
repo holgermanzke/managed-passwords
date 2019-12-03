@@ -2,22 +2,13 @@ const { get, set, unset } = require("./utils/cmds");
 const { verifyHash, readMasterPassword } = require("./utils/crypto");
 const userArgs = process.argv.slice(2);
 const [cmd, key, value] = userArgs;
-const readline = require("readline");
+const { askForPassword, waitFor } = require("./utils/input");
 
-const readlineInterface = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-readlineInterface._writeToOutput = function() {
-  readlineInterface.output.write("");
-};
-readlineInterface.question("Please enter new master password:", password => {
-  execute(password);
-  readlineInterface.close();
-});
-
-async function execute(password) {
+async function execute() {
   const hash = readMasterPassword();
+  const password = await askForPassword();
+
+  await waitFor(2000);
 
   if (!verifyHash(password, hash)) {
     throw new Error("Invalid master Password");
@@ -42,4 +33,4 @@ async function execute(password) {
       console.log("command not found");
   }
 }
-// execute();
+execute();
