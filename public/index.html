@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Managed Passwords</title>
+  </head>
+  <body>
+    <h1>Managed Passwords</h1>
+    <div>
+      <label
+        >key
+        <input type="text" placeholder="Enter Your Key" id="key" />
+      </label>
+      <label
+        >value
+        <input type="text" placeholder="Value" id="value" />
+      </label>
+    </div>
+    <div>
+      <button id="get">get</button>
+      <button id="set">set</button>
+      <button id="unset">unset</button>
+    </div>
+    <script>
+      function getInput() {
+        const key = document.querySelector("#key").value;
+        const value = document.querySelector("#value").value;
+        return { key, value };
+      }
+
+      document.querySelector("#get").addEventListener("click", () => {
+        const input = getInput();
+        fetch(`/api/secrets/${input.key}`)
+          .then(response => response.json())
+          .then(alert);
+      });
+    </script>
+  </body>
+</html>
